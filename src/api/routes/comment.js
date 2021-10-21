@@ -1,0 +1,91 @@
+const express = require('express')
+const router = express.Router()
+const Comment = require('../models/Comment')
+
+router.get('/:post',async (req, res)=>{
+    try {  
+        let comment = await Comment.find({post: req.params.post})
+        if(!comment){
+            res.status(400).json({erro: 'Comentario não encontrado'})
+        }
+        res.status(200).json(comment)  
+    } catch {
+        res.status(500).json({erro: 'Erro não esperado'})
+    }
+})
+
+router.get('/',async (req, res)=>{
+    //try {  
+        let comment = await Comment.find()
+        if(!comment){
+            res.status(400).json({erro: 'Comentario não encontrado'})
+        }
+        res.status(200).json(comment)  
+    /*} catch {
+        res.status(500).json({erro: 'Erro não esperado'})
+    }*/
+})
+
+router.post('/',async (req, res)=>{
+    try {   
+        let comment = new Comment(req.body);
+        await comment.save()
+        res.status(200).json(comment)  
+    } catch {
+        res.status(500).json({erro: 'Erro não esperado'})
+    }
+})
+
+router.get('/:Comment/:id', async(req, res)=>{
+    let id = req.params.id
+    try {     
+        let comment = await Comment.findById(id).where({comment: req.params.Comment}) 
+        if(!comment){
+            res.status(400).json({erro: 'Comentario não encontrado'})
+        }
+        res.status(200).json(comment)   
+    } catch {
+        res.status(500).json({erro: 'Erro não esperado'})
+    }
+})
+
+router.put('/:id', async(req, res)=>{
+    try {
+        let id = req.params.id    
+        let comment = await Comment.findByIdAndUpdate(id, req.body) 
+        if(!comment){
+            res.status(400).json({erro: 'Comentario não encontrado'})
+        }
+        res.status(200).json(comment)   
+    } catch {
+        res.status(500).json({erro: 'Erro não esperado'})
+    }
+})
+
+router.delete('/:id', async(req, res)=>{
+    try {
+        let id = req.params.id    
+        let comment = await Comment.findByIdAndDelete(id) 
+        if(!comment){
+            res.status(400).json({erro: 'Comentario não encontrado'})
+        }
+        res.status(200).json(comment)   
+    } catch {
+        res.status(500).json({erro: 'Erro não esperado'})
+    }
+})
+
+router.delete('/', async(req, res)=>{  
+    try {
+        let comment = await Comment.deleteMany() 
+        if(!comment){
+            res.status(400).json({erro: 'Comentario não encontrado'})
+        }
+        res.status(200).json(comment)   
+    } catch {
+        res.status(500).json({erro: 'Erro não esperado'})
+    }
+})
+
+module.exports = router
+
