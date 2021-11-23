@@ -14,16 +14,6 @@ router.get('/',async (req, res)=>{
     }
 })
 
-router.post('/',async (req, res)=>{
-    try {   
-        let user = new User(req.body);
-        await user.save()
-        res.status(200).json(user)  
-    } catch {
-        res.status(500).json({erro: 'Erro não esperado'})
-    }
-})
-
 router.get('/:id', async(req, res)=>{
     let id = req.params.id
     try {     
@@ -32,6 +22,16 @@ router.get('/:id', async(req, res)=>{
             res.status(400).json({erro: 'Usuario não encontrado'})
         }
         res.status(200).json(user)   
+    } catch {
+        res.status(500).json({erro: 'Erro não esperado'})
+    }
+})
+
+router.post('/',async (req, res)=>{
+    try {   
+        let user = new User(req.body);
+        await user.save()
+        res.status(200).json(user)  
     } catch {
         res.status(500).json({erro: 'Erro não esperado'})
     }
