@@ -16,7 +16,7 @@ router.get('/:id',async (req, res)=>{
 
 router.get('/',async (req, res)=>{
     try {  
-        let comment = await Comment.find()
+        let comment = await Comment.find(req.query)
         if(!comment){
             res.status(400).json({erro: 'Comentario não encontrado'})
         }

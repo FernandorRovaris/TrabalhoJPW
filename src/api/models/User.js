@@ -6,9 +6,9 @@ let schema = new mongoose.Schema({
         ref: 'post'
     },
     nome: String,
-    nacimeto: String,
+    nacimento: Date,
     sexo: String,
-    nacionalidde: String    
+    nacionalidade: String    
 })
 
 let User = mongoose.model('user', schema)
