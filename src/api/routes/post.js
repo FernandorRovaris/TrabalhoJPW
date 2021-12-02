@@ -17,12 +17,9 @@ router.get('/:id',async (req, res)=>{
 router.get('/',async (req, res)=>{
     try {  
         let filter = null
-        if(req.query.user){
-            filter = {user: req.query.user}
-        }
-
+              
         console.log("post");
-        let post = await Post.find(filter)
+        let post = await Post.find(req.query)
         if(!post){
             res.status(400).json({erro: 'Postagem não encontrado'})
         }
